@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace P2FixAnAppDotNetCode.Models.Repositories
@@ -12,8 +12,13 @@ namespace P2FixAnAppDotNetCode.Models.Repositories
 
         public ProductRepository()
         {
-            _products = new List<Product>();
-            GenerateProductData();
+            // Lazy initialisation : the static list is shared across all instances
+            // and must be populated only once to preserve stock modifications.
+            if (_products == null)
+            {
+                _products = new List<Product>();
+                GenerateProductData();
+            }
         }
 
         /// <summary>
